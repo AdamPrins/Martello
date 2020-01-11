@@ -85,14 +85,7 @@ public class GUI implements ActionListener {
 	 * @param contentPane the contentPane of the frame that we are adding this JPanel to
 	 */
 	private void createCanvasPanel(Container contentPane) {
-		BufferedImage image;
-		try {
-			String path = "/Users/adam/eclipse-workspace/Martello/data/Floor-Plan.png";
-			image = ImageIO.read(new File(path));
-			canvas = new Canvas(image);
-		} catch (Exception e) {
-			System.out.println("Image not found: " + e.getMessage());
-		}
+		canvas = new Canvas();
 	    
 	    GridBagConstraints c = new GridBagConstraints();
 	    c.gridx=0;					c.gridy=0;

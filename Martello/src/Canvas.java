@@ -14,22 +14,21 @@ import javax.swing.*;
  *		
  */
 public class Canvas extends JPanel {
+	
+	boolean drawGrid=false;
 		
 	private static final long serialVersionUID = 3290417118952335835L;
 	
 	/* The pixels needed to display the game window */
-	public static int DRAWING_SIZE_X = 500;
-	public static int DRAWING_SIZE_Y = 500;
+	public static int DRAWING_SIZE_X = 550;
+	public static int DRAWING_SIZE_Y = 625;
 	BufferedImage image;
 	
 	
 	/**
 	 * The constructor of this drawing component
 	 */
-	public Canvas(BufferedImage image) {
-		this.image=image;
-		DRAWING_SIZE_X=image.getWidth();
-		DRAWING_SIZE_Y=image.getHeight();
+	public Canvas() {
 		/* creates a boarder around the canvas */
         setBorder(BorderFactory.createLineBorder(Color.black));
     }
@@ -54,20 +53,22 @@ public class Canvas extends JPanel {
         g.setColor(Color.white);
         g.fillRect(0, 0, DRAWING_SIZE_X, DRAWING_SIZE_Y);
         
-        //g.drawImage(image, 0, 0, null);
+        if (drawGrid) {
+	        g.setColor(Color.gray);
+	        drawGrid(g, 25);
+	        g.setColor(Color.black);
+	        drawGrid(g, 100);
+        }
         
-        g.setColor(Color.gray);
-        //drawGrid(g, 25);
         g.setColor(Color.black);
-        //drawGrid(g, 100);
-        
+        g.drawRect(50, 50, 400, 250);	//First floor outline
+        g.drawRect(50, 325, 400, 250);	//Second floor outline
         for(Room room:Room.setupRooms()) {
         	room.paint(g);
         }
     }  
     
     public void drawGrid(Graphics g, int step) {
-    	
     	for (int x=step; x<DRAWING_SIZE_X; x+=step) {
     		g.drawLine(x, 0, x, DRAWING_SIZE_Y);
     	}
