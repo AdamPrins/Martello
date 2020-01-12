@@ -31,4 +31,14 @@ public class Phone extends HotelEvent {
 			room.removeUser(new UnknownUser("phone", room, time));
 		}
 	}
+	
+	@Override
+	public String toString() {
+		if (pickUp) {
+			return "Call started in " + room;
+		}
+		else {
+			return "Call ended in " + room;
+		}
+	}
 }

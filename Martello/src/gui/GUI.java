@@ -22,6 +22,7 @@ public class GUI implements ActionListener {
 	
 	/* JMenu File items */
     private JMenuItem quitItem;
+    private JMenuItem redrawItem;
     
     /* Buttons for stepping though events */
     private JButton stepForwards;
@@ -31,7 +32,8 @@ public class GUI implements ActionListener {
     
     /* Displays time */
     private JLabel outputDate;
-    private JLabel outputEvent;
+    private JLabel outputEventCount;
+    private JTextArea outputEvent;
     
     private int eventCounter;
     
@@ -61,7 +63,7 @@ public class GUI implements ActionListener {
 	    createPanelSpacing(contentPane);
 	    createInterfacePanel(contentPane);
 	    
-	    frame.setPreferredSize(new Dimension(1000,1000));
+	    frame.setPreferredSize(new Dimension(1000,700));
 	    frame.pack(); // pack contents into our frame
         frame.setResizable(false); // we can resize it
         frame.setVisible(true); // make it visible
@@ -88,6 +90,10 @@ public class GUI implements ActionListener {
 	    quitItem = new JMenuItem("Quit");
 	    fileMenu.add(quitItem);
 	    quitItem.addActionListener(this);
+	    
+	    redrawItem = new JMenuItem("Redraw");
+	    fileMenu.add(redrawItem);
+	    redrawItem.addActionListener(this);
 	    
 	}
 	
@@ -168,8 +174,18 @@ public class GUI implements ActionListener {
 	    c.gridx = 0;			c.gridy = 5;
 	    c.weightx=1;
 	    c.gridwidth=3;
-	    outputEvent = new JLabel(eventCounter+"/"+controller.numberOfEvents());
-	    outputEvent.setPreferredSize(new Dimension(150,30));
+	    outputEventCount = new JLabel(eventCounter+"/"+controller.numberOfEvents());
+	    outputEventCount.setPreferredSize(new Dimension(150,30));
+	    interfacePanel.add(outputEventCount,c);
+	    
+	    c.gridx = 0;			c.gridy = 6;
+	    c.weightx=1;
+	    c.gridwidth=3; 			c.gridheight=2;
+	    outputEvent = new JTextArea("Event: ");
+	    outputEvent.setPreferredSize(new Dimension(150,40));
+	    outputEvent.setLineWrap(true);
+	    outputEvent.setWrapStyleWord(true);
+	    outputEvent.setEditable(false);
 	    interfacePanel.add(outputEvent,c);
 	    
 		c.gridx=CANVASE_SIZE+3;	c.gridy=0;
@@ -213,6 +229,7 @@ public class GUI implements ActionListener {
 				eventCounter--;
 				outputDate.setText("Current Time: " + new Date(event.getTime()*1000));
 				time=event.getTime();
+				outputEvent.setText("Event: " + event);
 			}
 		}
 		if (button == stepBackwards10) {
@@ -222,6 +239,7 @@ public class GUI implements ActionListener {
 					eventCounter--;
 					outputDate.setText("Current Time: " + new Date(event.getTime()*1000));
 					time=event.getTime();
+					outputEvent.setText("Event: " + event);
 				}
 			}
 		}
@@ -231,6 +249,7 @@ public class GUI implements ActionListener {
 				eventCounter++;
 				outputDate.setText("Current Time: " + new Date(event.getTime()*1000));
 				time=event.getTime();
+				outputEvent.setText("Event: " + event);
 			}
 		}
 		else if (button == stepForwards10) {
@@ -240,10 +259,11 @@ public class GUI implements ActionListener {
 					eventCounter++;
 					outputDate.setText("Current Time: " + new Date(event.getTime()*1000));
 					time=event.getTime();
+					outputEvent.setText("Event: " + event);
 				}
 			}
 		}
-		outputEvent.setText(eventCounter+"/"+controller.numberOfEvents());
+		outputEventCount.setText(eventCounter+"/"+controller.numberOfEvents());
 		UnknownUser.clearMotionUsers(time);
 		drawCanvas();
 	
@@ -258,6 +278,9 @@ public class GUI implements ActionListener {
 		if (item == quitItem) {
             System.exit(0);
         }
+		else if (item == redrawItem) {
+			drawCanvas();
+		}
 	}
 	
 	/**

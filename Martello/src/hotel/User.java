@@ -41,7 +41,7 @@ public class User {
 	 * @param room The Room the the User has moved into
 	 */
 	public void addRoom(Room room) {
-		if (!history.isEmpty()) {
+		if (!history.isEmpty() && !history.peek().equals(room)) {
 			history.peek().removeUser(this);
 		}
 		history.add(room);

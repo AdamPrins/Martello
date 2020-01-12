@@ -37,6 +37,10 @@ public class HotelEventString implements Comparable<HotelEventString>{
 		return date;
 	}
 	
+	public void setTime(long time) {
+		this.date=time;
+	}
+	
 	public String getDevice() {
 		return device;
 	}
@@ -53,6 +57,7 @@ public class HotelEventString implements Comparable<HotelEventString>{
 		return device_id;
 	}
 	
+	
 	@Override
 	public String toString() {
 		String s="";
@@ -66,7 +71,7 @@ public class HotelEventString implements Comparable<HotelEventString>{
 	
 	public static ArrayList<HotelEventString> importData() {
 		ArrayList<HotelEventString> events = new ArrayList<HotelEventString>();
-		File file = new File(PATH2);
+		File file = new File(PATH3);
 		Gson gson = new Gson();
 		
 		try {
@@ -75,8 +80,9 @@ public class HotelEventString implements Comparable<HotelEventString>{
 			JsonObject result = p.parse(fileF).getAsJsonObject();
 			Set<Map.Entry<String, JsonElement>> entrySet = result.entrySet();
 			for (Map.Entry<String, JsonElement> map:entrySet) {
-				HotelEventString hotelEvent = gson.fromJson(map.getValue(), HotelEventString.class);
-				events.add(hotelEvent);
+				HotelEventString hotelEventString = gson.fromJson(map.getValue(), HotelEventString.class);
+				hotelEventString.setTime( Long.parseUnsignedLong(map.getKey()));
+				events.add(hotelEventString);
 			}
 			Collections.sort(events);
 			Collections.reverse(events);

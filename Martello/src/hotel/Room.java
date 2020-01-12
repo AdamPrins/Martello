@@ -120,7 +120,7 @@ public class Room {
 			int userX=(x + width/2);
 			int userY=(y + height/2);
 			
-			if (name.equals("Reception Closet")) {
+			if (name.equals("reception closet")) {
 				userX += (int) (25*Math.cos(Math.toRadians(180*count)));
 				userY += (int) (25*Math.sin(Math.toRadians(180*count)));
 			}
@@ -266,6 +266,11 @@ public class Room {
 		rooms.add(new Room(-1, "elevator",	 		200, 425,   65, 50));
 		
 		return rooms;
+	}
+	
+	@Override
+	public String toString() {
+		return name;
 	}
 
 }

@@ -59,4 +59,18 @@ public class AccessPoint extends HotelEvent {
 		return s;
 	}
 	
+	@Override
+	public String toString() {
+		String s = user+" has ";
+		if (connected) {
+			s+="connected to ";
+		}
+		else {
+			s+="disconnected from ";
+		}
+		s+="the access point in "+ room;
+		
+		return s;
+	}
+	
 }

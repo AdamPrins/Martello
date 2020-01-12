@@ -49,4 +49,22 @@ public class DoorSensor extends HotelEvent {
 			}
 		}
 	}
+	
+	@Override
+	public String toString() {
+		String s = "Door in room " + room + " has been ";
+		if (isOpening) {
+			s+="opened";
+		}
+		else {
+			s+="closed";
+		}
+		if (user!=null) {
+			s+=" by "+user;
+		}
+		else if (isOpening) {
+			s+=" from inside";
+		}
+		return s;
+	}
 }
