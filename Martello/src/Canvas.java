@@ -1,17 +1,14 @@
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 /**
- * This is the canvas for drawing the geometry of island
- * 
- *  
+ *  Handles the functions for drawing the layout of the building
+ *   
  * @authors Adam Prins
  * 
- * @version 0.3.0 
- * 		Paint booleans all default to false now 
- *		
  */
 public class Canvas extends JPanel {
 	
@@ -22,7 +19,8 @@ public class Canvas extends JPanel {
 	/* The pixels needed to display the game window */
 	public static int DRAWING_SIZE_X = 550;
 	public static int DRAWING_SIZE_Y = 625;
-	BufferedImage image;
+	
+	ArrayList<Room> rooms;
 	
 	
 	/**
@@ -31,6 +29,8 @@ public class Canvas extends JPanel {
 	public Canvas() {
 		/* creates a boarder around the canvas */
         setBorder(BorderFactory.createLineBorder(Color.black));
+        
+        rooms=new ArrayList<Room>();
     }
 
 	/**
@@ -53,6 +53,7 @@ public class Canvas extends JPanel {
         g.setColor(Color.white);
         g.fillRect(0, 0, DRAWING_SIZE_X, DRAWING_SIZE_Y);
         
+        //Draws a grid onto the canvas
         if (drawGrid) {
 	        g.setColor(Color.gray);
 	        drawGrid(g, 25);
@@ -60,14 +61,21 @@ public class Canvas extends JPanel {
 	        drawGrid(g, 100);
         }
         
+        //Paint all the rooms (including contents)
         g.setColor(Color.black);
         g.drawRect(50, 50, 400, 250);	//First floor outline
         g.drawRect(50, 325, 400, 250);	//Second floor outline
-        for(Room room:Room.setupRooms()) {
+        for(Room room:rooms) {
         	room.paint(g);
         }
     }  
     
+    /**
+     * Draws a grid onto the canvas with the given steps
+     * 
+     * @param g the graphics that will be used to draw
+     * @param step the distance between lines
+     */
     public void drawGrid(Graphics g, int step) {
     	for (int x=step; x<DRAWING_SIZE_X; x+=step) {
     		g.drawLine(x, 0, x, DRAWING_SIZE_Y);
@@ -75,6 +83,15 @@ public class Canvas extends JPanel {
     	for (int y=step; y<DRAWING_SIZE_Y; y+=step) {
     		g.drawLine(0, y, DRAWING_SIZE_X, y);
 		}
+    }
+    
+    /**
+     * Sets the rooms stored by the canvas to the passed list
+     * 
+     * @param rooms the arraylist of rooms
+     */
+    public void setRooms(ArrayList<Room> rooms) {
+    	this.rooms=rooms;
     }
     
 }

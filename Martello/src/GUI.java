@@ -1,39 +1,35 @@
 import java.awt.*;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
-
-
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.ArrayList;
 
 /**
- * This is the GUI that contains the functionality of island
- * It contains the canvas, buttons, and file menu, and handles their interaction 
- *		
+ *	Handles all the display elements 
+ *
+ * @author Adam Prins
  */
 public class GUI implements ActionListener {
 	
 	public static void main(String[] args) {
-		ArrayList<User> users = User.setupUsers();
-		
-		ArrayList<Room> rooms = Room.setupRooms();
-		
 		new GUI();
 	}
 	
 	/* JMenu File items */
     private JMenuItem quitItem;
     
+    /* Buttons for stepping though events */
+    private JButton stepForwards;
+    private JButton stepBackwards;
     
+    /* Displays time */
+    private JLabel output;
     
     /* The canvas where the drawing is performed */
     private Canvas canvas;
     
     /* The size of the canvas in terms of grid bag coordinates */
     private static final int CANVASE_SIZE = 10;
+    
+    Controller controller;
     
     
     /**
@@ -52,12 +48,14 @@ public class GUI implements ActionListener {
 	    createPanelSpacing(contentPane);
 	    createInterfacePanel(contentPane);
 	    
-	    frame.setPreferredSize(new Dimension(800,1000));
+	    frame.setPreferredSize(new Dimension(1000,1000));
 	    frame.pack(); // pack contents into our frame
         frame.setResizable(false); // we can resize it
         frame.setVisible(true); // make it visible
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //stops the program when the x is pressed
         
+        controller = new Controller();
+        canvas.setRooms(controller.getRooms());
         canvas.repaint();
 	}
 	
@@ -126,6 +124,22 @@ public class GUI implements ActionListener {
 	    c.anchor = (GridBagConstraints.LINE_START);
 	    c.fill = GridBagConstraints.HORIZONTAL;
 	    
+	    stepBackwards = new JButton("Step Backwards");
+	    stepBackwards.addActionListener(this);
+	    c.gridx = 0;			c.gridy = 3;
+	    interfacePanel.add(stepBackwards,c);
+	    
+	    stepForwards = new JButton("Step Forwards");
+	    stepForwards.addActionListener(this);
+	    c.gridx = 1;			c.gridy = 3;
+	    interfacePanel.add(stepForwards,c);
+	    
+	    c.gridx = 0;			c.gridy = 4;
+	    c.weightx=1;
+	    c.gridwidth=3;
+	    output = new JLabel("Current Time: ");
+	    output.setPreferredSize(new Dimension(150,30));
+	    interfacePanel.add(output,c);
 	    
 		c.gridx=CANVASE_SIZE+3;	c.gridy=0;
 		c.gridwidth=4;			c.gridheight=CANVASE_SIZE;
@@ -148,11 +162,6 @@ public class GUI implements ActionListener {
         	JButton button = (JButton) o;
         	 actionOnJButton(button);
         }
-        // see if it's a JToggleButton
-        else if (o instanceof JToggleButton) {
-        	JToggleButton button = (JToggleButton) o;
-        	 actionOnJToggleButton(button);
-        }
         // see if its a JMenuItem
         else if (o instanceof JMenuItem){
             JMenuItem item = (JMenuItem)o;
@@ -166,14 +175,16 @@ public class GUI implements ActionListener {
      * @param button the button that was pressed
      */
 	private void actionOnJButton(JButton button) {
-	}
+		if (button == stepBackwards) {
+			drawCanvas();
+		}
+		else if (button == stepForwards) {
+			User user = controller.getRooms().get(0).getUsers().get(3);
+			controller.getRooms().get(0).removeUser(user);
+			controller.getRooms().get(1).addUser(user);
+			drawCanvas();
+		}
 	
-	/**
-     * This method handles the pressing of a JToggleButton
-     * 
-     * @param button the button that was pressed
-     */
-	private void actionOnJToggleButton(JToggleButton button) {
 	}
 	
 	/**
