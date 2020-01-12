@@ -6,6 +6,11 @@ import hotel.Door;
 import hotel.Room;
 import hotel.User;
 
+/**
+ * A Door Sensor Event
+ * 
+ * @author Adam Prins
+ */
 public class DoorSensor extends HotelEvent {
 
 	Door door;
@@ -13,6 +18,14 @@ public class DoorSensor extends HotelEvent {
 	Room room;
 	boolean isOpening;
 	
+	/**
+	 * Creats a DoorSensor Event
+	 * 
+	 * @param time time in epoc
+	 * @param room the Room where the Door is located
+	 * @param user the User that interacted with the door, may be null
+	 * @param event the type of DoorSensor Even as a string
+	 */
 	DoorSensor(long time, Room room, User user, String event) {
 		super(time);
 		this.room=room;
@@ -28,6 +41,10 @@ public class DoorSensor extends HotelEvent {
 		
 	}
 	
+	/**
+	 * Triggers the event on the Door
+	 */
+	@Override
 	public void activate() {
 		if (user==null) {
 			door.setColor(Color.black);

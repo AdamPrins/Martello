@@ -51,16 +51,34 @@ public class Room {
 		doors = new ArrayList<Door>();
 	}
 	
+	/**
+	 * Gets the name of the room
+	 * 
+	 * @return a String of the name
+	 */
 	public String getName() {
 		return name;
 	}
 	
+	/**
+	 * Gets the room number
+	 * 
+	 * @return the room number
+	 */
 	public int getRoomNumber() {
 		return roomNumber;
 	}
 	
+	/**
+	 * returns the door contained by the room
+	 * 
+	 * @return The door contained by the room
+	 */
 	public Door getDoor() {
-		return doors.get(0);
+		if (!doors.isEmpty()) {
+			return doors.get(0);
+		}
+		return null;
 	}
 	
 	/**
@@ -268,6 +286,11 @@ public class Room {
 		return rooms;
 	}
 	
+	/**
+	 * Converts the room to a string, this will just be its name
+	 * 
+	 * @return Returns a string representation of the room
+	 */
 	@Override
 	public String toString() {
 		return name;

@@ -69,6 +69,13 @@ public class User {
 		return color;
 	}
 	
+	/**
+	 * Paints the User object
+	 * 
+	 * @param g the graphics to draw
+	 * @param x the x position of the User
+	 * @param y the y position of the User
+	 */
 	public void paint(Graphics g, int x, int y) {
 		int size = 20;
 		x-=size/2;

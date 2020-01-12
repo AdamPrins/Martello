@@ -3,12 +3,25 @@ package hotel.event;
 import hotel.Room;
 import hotel.User;
 
+/**
+ * An Access Point event
+ * 
+ * @author Adam Prins
+ */
 public class AccessPoint extends HotelEvent {
 
 	User user; 
 	Room room;
 	boolean connected;
 	
+	/**
+	 * Creates an AccessPoint Event
+	 * 
+	 * @param time the time in epoc
+	 * @param user the user that intereacted with the AccessPoint
+	 * @param room the Room where the AccessPoint is
+	 * @param event the type of AccessPoint event as a string
+	 */
 	AccessPoint(long time, User user, Room room, String event) {
 		super(time);
 		this.user=user;
@@ -25,6 +38,10 @@ public class AccessPoint extends HotelEvent {
 		return room;
 	}
 	
+	/**
+	 * Triggers the event on the Room
+	 */
+	@Override
 	public void activate() {
 		if (connected) {
 			room.addUser(user);
@@ -34,6 +51,12 @@ public class AccessPoint extends HotelEvent {
 		}
 	}
 	
+	/**
+	 * Converts access point names to room numbers
+	 * 
+	 * @param s
+	 * @return
+	 */
 	public static String toRoomNumber(String s) {
 		if (s.equals("ap1-1")) {
 			s="110";

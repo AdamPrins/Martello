@@ -1,16 +1,25 @@
 package hotel.event;
 
-import java.util.ArrayList;
-
 import hotel.Room;
 import hotel.UnknownUser;
-import hotel.User;
 
+/**
+ *  A Phone Event in the Hotel
+ *  
+ * @author Adam Prins
+ */
 public class Phone extends HotelEvent {
 	
 	private boolean pickUp;
 	Room room;
 	
+	/**
+	 * Creates a phone event
+	 * 
+	 * @param time time in epoc
+	 * @param room room where event occurred 
+	 * @param event the type of phone event as a string
+	 */
 	Phone(long time, Room room, String event) {
 		super(time);
 		this.room=room;
