@@ -31,6 +31,11 @@ public class User {
 		history = new Stack<Room>();
 	}
 	
+	/**
+	 * Gets the Room the User was Last in
+	 * 
+	 * @return the last Room the User was in
+	 */
 	public Room getRoom() {
 		return history.peek();
 	}
@@ -47,6 +52,9 @@ public class User {
 		history.add(room);
 	}
 	
+	/**
+	 * Removes a user from the last Room they were in
+	 */
 	public void removeRoom() {
 		history.pop().removeUser(this);;
 	}

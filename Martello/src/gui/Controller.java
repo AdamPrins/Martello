@@ -15,10 +15,10 @@ import hotel.event.*;
  */
 public class Controller {
 
-	ArrayList<Room> rooms;
-	ArrayList<User> users;
-	Stack<HotelEvent> events;
-	Stack<HotelEvent> eventsPast;
+	ArrayList<Room> rooms; //All the Rooms in the Building
+	ArrayList<User> users; //All the Users that were at the building in the last 24 hours
+	Stack<HotelEvent> events; //All the upcoming Events
+	Stack<HotelEvent> eventsPast; //All the past Events
 	
 	/**
 	 * Does all the setup for the Rooms and Users
@@ -40,6 +40,12 @@ public class Controller {
 		return rooms;
 	}
 	
+	/**
+	 * triggers the next event and moves it from 
+	 * the event stack to the eventPast stack
+	 * 
+	 * @return the triggered event
+	 */
 	public HotelEvent stepForwards() {
 		if (!events.isEmpty()) {
 			HotelEvent event = events.pop();
@@ -50,6 +56,14 @@ public class Controller {
 		return eventsPast.peek();
 	}
 	
+	/**
+	 * detriggers the previous event and moves it from 
+	 * the eventPast stack to the event stack
+	 * 
+	 * @return the detriggered event
+	 * 
+	 * TODO This is not supported by most Events!
+	 */
 	public HotelEvent stepBackwards() {
 		if(!eventsPast.isEmpty()) {
 			HotelEvent event = eventsPast.pop();
@@ -69,6 +83,11 @@ public class Controller {
 		return users;
 	}
 	
+	/**
+	 * The number of Events taken from the JSON
+	 * 
+	 * @return the number of events
+	 */
 	public int numberOfEvents() {
 		return events.size()+eventsPast.size();
 	}

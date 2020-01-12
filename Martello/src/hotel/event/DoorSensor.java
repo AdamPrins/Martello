@@ -16,6 +16,8 @@ public class DoorSensor extends HotelEvent {
 	Door door;
 	User user;
 	Room room;
+	
+	//True if the door is being opened, false if it is being closed
 	boolean isOpening;
 	
 	/**
@@ -67,6 +69,11 @@ public class DoorSensor extends HotelEvent {
 		}
 	}
 	
+	/**
+	 * Converts the DoorSensor Event to a String
+	 * 
+	 * @return the String representation of the DoorSensor Event
+	 */
 	@Override
 	public String toString() {
 		String s = "Door in room " + room + " has been ";

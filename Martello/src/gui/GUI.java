@@ -22,6 +22,7 @@ public class GUI implements ActionListener {
 	
 	/* JMenu File items */
     private JMenuItem quitItem;
+    private JMenuItem restartItem;
     private JMenuItem redrawItem;
     
     /* Buttons for stepping though events */
@@ -91,6 +92,10 @@ public class GUI implements ActionListener {
 	    fileMenu.add(quitItem);
 	    quitItem.addActionListener(this);
 	    
+	    restartItem = new JMenuItem("Restart");
+	    fileMenu.add(restartItem);
+	    restartItem.addActionListener(this);
+	    
 	    redrawItem = new JMenuItem("Redraw");
 	    fileMenu.add(redrawItem);
 	    redrawItem.addActionListener(this);
@@ -145,6 +150,7 @@ public class GUI implements ActionListener {
 	    
 	    stepBackwards = new JButton("Step Backwards");
 	    stepBackwards.addActionListener(this);
+	    stepBackwards.setEnabled(false);
 	    c.gridx = 0;			c.gridy = 2;
 	    interfacePanel.add(stepBackwards,c);
 	    
@@ -155,6 +161,7 @@ public class GUI implements ActionListener {
 	    
 	    stepBackwards10 = new JButton("Step Backwards 10");
 	    stepBackwards10.addActionListener(this);
+	    stepBackwards10.setEnabled(false);
 	    c.gridx = 0;			c.gridy = 3;
 	    interfacePanel.add(stepBackwards10,c);
 	    
@@ -278,6 +285,12 @@ public class GUI implements ActionListener {
 		if (item == quitItem) {
             System.exit(0);
         }
+		else if (item == restartItem) {
+			controller=new Controller();
+			canvas.setRooms(controller.getRooms());
+			eventCounter=0;
+			drawCanvas();
+		}
 		else if (item == redrawItem) {
 			drawCanvas();
 		}

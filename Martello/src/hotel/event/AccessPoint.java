@@ -30,10 +30,20 @@ public class AccessPoint extends HotelEvent {
 		else {connected=true;}
 	}
 	
+	/**
+	 * gets the user that triggered the event
+	 * 
+	 * @return the triggering User
+	 */
 	public User getUser() {
 		return user;
 	}
 	
+	/**
+	 * gets the room that triggered the event
+	 * 
+	 * @return the triggering Room
+	 */
 	public Room getRoom() {
 		return room;
 	}
@@ -82,6 +92,11 @@ public class AccessPoint extends HotelEvent {
 		return s;
 	}
 	
+	/**
+	 * COnverts the AccessPoint Event to a String
+	 * 
+	 * @return the String Representation of the AccessPoint Event
+	 */
 	@Override
 	public String toString() {
 		String s = user+" has ";

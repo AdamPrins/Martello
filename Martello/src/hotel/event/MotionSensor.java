@@ -33,6 +33,11 @@ public class MotionSensor extends HotelEvent {
 		UnknownUser.addMotionUser(user);
 	}
 	
+	/**
+	 * Returns the event as a string
+	 * 
+	 * @return a String representation of the event
+	 */
 	@Override
 	public String toString() {
 		return "Mostion detected in " + room;

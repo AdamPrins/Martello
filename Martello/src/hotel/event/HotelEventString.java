@@ -17,11 +17,10 @@ import com.google.gson.stream.JsonReader;
  * @author Adam Prins, Han Tran
  */
 public class HotelEventString implements Comparable<HotelEventString>{
-	//public static final String PATH1 = "/Users/adam/git/Martello/Martello/data/team_str_date.json";
-	//public static final String PATH2 = "/Users/adam/git/Martello/Martello/data/team_timestamp_date.json";
-	public static final String PATH3 = "/Users/adam/git/Martello/Martello/data/Murder-on-the-2nd-Floor-Raw-Data-v01.json";
 	
-	//Date in epoc time
+	public static final String PATH = "/Users/adam/git/Martello/Martello/data/Murder-on-the-2nd-Floor-Raw-Data-v01.json";
+	
+	//Date in epoch time
 	private long date;
 	private String device;
 	private String event;
@@ -30,6 +29,15 @@ public class HotelEventString implements Comparable<HotelEventString>{
 	@SerializedName(value="device-id")
 	private String device_id;
 	
+	/**
+	 * Constructor for a HotelEventString
+	 * 
+	 * @param date as a long in epoch time
+	 * @param device the triggering device as a string
+	 * @param event the triggering event as a string
+	 * @param guest_id the guest-id that triggered the event
+	 * @param device_id the device-id that triggered the event
+	 */
 	public HotelEventString(long date, String device, String event, 
 							String guest_id, String device_id) {
 		this.date=date;
@@ -94,6 +102,11 @@ public class HotelEventString implements Comparable<HotelEventString>{
 	}
 	
 	
+	/**
+	 * Returns the HotelEventString as a single string
+	 * 
+	 * @return a String representation of the HotelEventString
+	 */
 	@Override
 	public String toString() {
 		String s="";
@@ -112,7 +125,7 @@ public class HotelEventString implements Comparable<HotelEventString>{
 	 */
 	public static ArrayList<HotelEventString> importData() {
 		ArrayList<HotelEventString> events = new ArrayList<HotelEventString>();
-		File file = new File(PATH3);
+		File file = new File(PATH);
 		Gson gson = new Gson();
 		
 		try {

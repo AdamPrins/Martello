@@ -14,13 +14,13 @@ import hotel.User;
  */
 public abstract class HotelEvent {
 	
-	//Epoc time
+	//Epoch time
 	long time;
 	
 	/**
 	 * Constructor for Hotel Event
 	 * 
-	 * @param time epoc time as a long
+	 * @param time epoch time as a long
 	 */
 	HotelEvent(long time) {
 		this.time=time;

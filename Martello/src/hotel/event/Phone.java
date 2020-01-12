@@ -10,6 +10,7 @@ import hotel.UnknownUser;
  */
 public class Phone extends HotelEvent {
 	
+	//true if the phone is picked up, false if it is put down
 	private boolean pickUp;
 	Room room;
 	
@@ -31,6 +32,9 @@ public class Phone extends HotelEvent {
 		}
 	}
 	
+	/**
+	 * Triggers the event on a Room
+	 */
 	@Override
 	public void activate() {
 		if (pickUp) {
@@ -41,6 +45,11 @@ public class Phone extends HotelEvent {
 		}
 	}
 	
+	/**
+	 * Returns the Phone event as a string
+	 * 
+	 * @return the String representation of the Phone Event
+	 */
 	@Override
 	public String toString() {
 		if (pickUp) {
