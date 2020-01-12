@@ -1,8 +1,11 @@
+package gui;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
+
+import hotel.Room;
 
 /**
  *  Handles the functions for drawing the layout of the building

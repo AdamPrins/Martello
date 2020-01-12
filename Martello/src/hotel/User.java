@@ -1,4 +1,6 @@
+package hotel;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -29,13 +31,24 @@ public class User {
 		history = new Stack<Room>();
 	}
 	
+	public Room getRoom() {
+		return history.peek();
+	}
+	
 	/**
 	 * Sets a Users location to the given Room
 	 * 
 	 * @param room The Room the the User has moved into
 	 */
 	public void addRoom(Room room) {
+		if (!history.isEmpty()) {
+			history.peek().removeUser(this);
+		}
 		history.add(room);
+	}
+	
+	public void removeRoom() {
+		history.pop().removeUser(this);;
 	}
 	
 	/**
@@ -54,6 +67,18 @@ public class User {
 	 */
 	public Color getColor() {
 		return color;
+	}
+	
+	public void paint(Graphics g, int x, int y) {
+		int size = 20;
+		x-=size/2;
+		y-=size/2;
+		g.setColor(color);
+		g.fillOval(x, y, size, size);
+		g.setColor(Color.black);
+		g.drawOval(x, y, size, size);
+		String s = name.substring(0, 1);
+		g.drawString(s, x+size/2-3, y+size/2+3);
 	}
 	
 	/**
@@ -105,4 +130,5 @@ public class User {
 		
 		return users;
 	}
+	
 }

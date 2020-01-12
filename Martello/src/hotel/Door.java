@@ -1,3 +1,4 @@
+package hotel;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -69,6 +70,10 @@ public class Door {
 	 */
 	public void changeY(int y) {
 		this.y+=y;
+	}
+	
+	public void setColor(Color color) {
+		this.color=color;
 	}
 	
 	/**

@@ -1,3 +1,4 @@
+package hotel;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -48,6 +49,18 @@ public class Room {
 		
 		users = new ArrayList<User>();
 		doors = new ArrayList<Door>();
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public int getRoomNumber() {
+		return roomNumber;
+	}
+	
+	public Door getDoor() {
+		return doors.get(0);
 	}
 	
 	/**
@@ -104,15 +117,19 @@ public class Room {
 		//Draws all the users located in the Room in a spiral
 		int count = 0;
 		for (User user:users) {
-			int size = 20;
-			int userX = (int) ((x + width/2)  + (count/6+1)*20*Math.sin(Math.toRadians(60*count)));
-			int userY = (int) ((y + height/2) + (count/6+1)*20*Math.cos(Math.toRadians(60*count)));
-			g.setColor(user.getColor());
-			g.fillOval(userX, userY, size, size);
-			g.setColor(Color.black);
-			g.drawOval(userX, userY, size, size);
-			String s = user.getName().substring(0, 1);
-			g.drawString(s, userX+size/2-3, userY+size/2+3);
+			int userX=(x + width/2);
+			int userY=(y + height/2);
+			
+			if (name.equals("Reception Closet")) {
+				userX += (int) (25*Math.cos(Math.toRadians(180*count)));
+				userY += (int) (25*Math.sin(Math.toRadians(180*count)));
+			}
+			else if (users.size()>1) {
+				int numUsers=users.size();
+				userX += (int) (20*Math.sin(Math.toRadians(360/numUsers*count)));
+				userY += (int) (20*Math.cos(Math.toRadians(360/numUsers*count)));
+			}
+			user.paint(g, userX,userY);
 			
 			count++;
 		}
@@ -178,84 +195,79 @@ public class Room {
 	 */
 	public static ArrayList<Room> setupRooms() {
 		ArrayList<Room> rooms = new ArrayList<Room>();
-		rooms.add(new Room(110, "Conference Room", 	 50,  50, 100, 150));
+		rooms.add(new Room(110, "conference room", 	 50,  50, 100, 150));
 		rooms.get(rooms.size()-1).addDoor(direction.East);
-		rooms.add(new Room(130, "Kitchen", 			 50, 200, 100, 100));
+		rooms.add(new Room(130, "kitchen", 			 50, 200, 100, 100));
 		rooms.get(rooms.size()-1).addDoor(direction.East);
-		rooms.add(new Room(101, "Reception Closet", 300,  50,  75,  25));
+		rooms.add(new Room(101, "reception closet", 300,  50,  75,  25));
 		rooms.get(rooms.size()-1).addDoor(direction.West);
-		rooms.add(new Room(151, "Gym", 				300,  75,  75,  75));
+		rooms.add(new Room(151, "gym", 				300,  75,  75,  75));
 		rooms.get(rooms.size()-1).addDoor(direction.South);
-		rooms.add(new Room(155, "Pool", 			375,  50,  75, 100));
+		rooms.add(new Room(155, "pool", 			375,  50,  75, 100));
 		rooms.get(rooms.size()-1).addDoor(direction.South);
-		rooms.add(new Room(152, "Men's Washroom",	300, 200,  50, 100));
+		rooms.add(new Room(152, "men's washroom",	300, 200,  50, 100));
 		rooms.get(rooms.size()-1).addDoor(direction.North);
-		rooms.add(new Room(154, "Woman's Washroom",	350, 200,  50, 100));
+		rooms.add(new Room(154, "woman's washroom",	350, 200,  50, 100));
 		rooms.get(rooms.size()-1).addDoor(direction.North);
-		rooms.add(new Room(156, "Laundry Room",		400, 200,  50,  50));
+		rooms.add(new Room(156, "laundry room",		400, 200,  50,  50));
 		rooms.get(rooms.size()-1).addDoor(direction.North);
-		rooms.add(new Room(158, "Stroage Room",		400, 250,  50,  50));
+		rooms.add(new Room(158, "stroage room",		400, 250,  50,  50));
 		rooms.get(rooms.size()-1).addDoor(direction.North);
-		rooms.add(new Room(150, "Stairwell",		450, 150,  50,  50));
+		rooms.add(new Room(150, "stairwell",		450, 150,  50,  50));
 		rooms.get(rooms.size()-1).addDoor(direction.West);
 		
-		rooms.add(new Room(100, "Front Lobby", 		150,  50, 150, 150));
+		rooms.add(new Room(100, "lobby", 			150,  50, 150, 150));
 		rooms.get(rooms.size()-1).addDoor(direction.North);
 		rooms.get(rooms.size()-1).toggleDrawRect();
-		rooms.add(new Room(105, "Dinning Hall", 	150, 200, 150, 100));
+		rooms.add(new Room(100, "reception", 		250,  50,  50, 100));
 		rooms.get(rooms.size()-1).toggleDrawRect();
-		rooms.add(new Room(0, "AP1-2", 			300, 150, 150, 50));
+		rooms.add(new Room(105, "dinning hall", 	150, 200, 150, 100));
+		rooms.get(rooms.size()-1).toggleDrawRect();
+		rooms.add(new Room(-12, "ap1-2", 			300, 150, 150, 50));
 		rooms.get(rooms.size()-1).toggleDrawRect();
 		
-		rooms.add(new Room(210, "Executive Suit",	 50, 325,  75,  125));
+		rooms.add(new Room(210, "executive suit",	 50, 325,  75,  125));
 		rooms.get(rooms.size()-1).addDoor(direction.East);
 		rooms.get(rooms.size()-1).moveDoor(40);
-		rooms.add(new Room(220, "Executive Suit",	 50, 450,  75,  125));
+		rooms.add(new Room(220, "executive suit",	 50, 450,  75,  125));
 		rooms.get(rooms.size()-1).addDoor(direction.East);
 		rooms.get(rooms.size()-1).moveDoor(-40);
-		rooms.add(new Room(231, "Comfort Room",	 	125, 325,  65,   75));
+		rooms.add(new Room(231, "comfort room",	 	125, 325,  65,   75));
 		rooms.get(rooms.size()-1).addDoor(direction.South);
-		rooms.add(new Room(233, "Comfort Room",	 	190, 325,  65,   75));
+		rooms.add(new Room(233, "comfort room",	 	190, 325,  65,   75));
 		rooms.get(rooms.size()-1).addDoor(direction.South);
-		rooms.add(new Room(235, "Comfort Room",	 	255, 325,  65,   75));
+		rooms.add(new Room(235, "Comfort room",	 	255, 325,  65,   75));
 		rooms.get(rooms.size()-1).addDoor(direction.South);
-		rooms.add(new Room(241, "Junior Suite",	 	320, 325,  65,  100));
+		rooms.add(new Room(241, "junior suite",	 	320, 325,  65,  100));
 		rooms.get(rooms.size()-1).addDoor(direction.South);
-		rooms.add(new Room(247, "Junior Suite",	 	385, 325,  65,  100));
+		rooms.add(new Room(247, "junior suite",	 	385, 325,  65,  100));
 		rooms.get(rooms.size()-1).addDoor(direction.South);
-		rooms.add(new Room(232, "Comfort Room",	 	125, 500,  65,   75));
+		rooms.add(new Room(232, "comfort room",	 	125, 500,  65,   75));
 		rooms.get(rooms.size()-1).addDoor(direction.North);
-		rooms.add(new Room(236, "Comfort Room",	 	255, 500,  65,   75));
+		rooms.add(new Room(236, "comfort room",	 	255, 500,  65,   75));
 		rooms.get(rooms.size()-1).addDoor(direction.North);
-		rooms.add(new Room(244, "Junior Suite",	 	320, 475,  65,  100));
+		rooms.add(new Room(244, "junior suite",	 	320, 475,  65,  100));
 		rooms.get(rooms.size()-1).addDoor(direction.North);
-		rooms.add(new Room(248, "Junior Suite",	 	385, 475,  65,  100));
+		rooms.add(new Room(248, "junior suite",	 	385, 475,  65,  100));
 		rooms.get(rooms.size()-1).addDoor(direction.North);
-		rooms.add(new Room(250, "Stairwell",		450, 425,  50,   50));
+		rooms.add(new Room(250, "stairwell",		450, 425,  50,   50));
 		rooms.get(rooms.size()-1).addDoor(direction.West);
 		
-		rooms.add(new Room(234, "Ice Machines",	 	190, 500,   65,  75));
+		rooms.add(new Room(234, "ice machine",	 	190, 500,   65,  75));
 		rooms.get(rooms.size()-1).toggleDrawRect();
-		rooms.add(new Room(200, "Hall",	 			320, 425,  130,  50));
+		rooms.add(new Room(200, "hall",	 			320, 425,  130,  50));
 		rooms.get(rooms.size()-1).toggleDrawRect();
-		rooms.add(new Room(0, "AP2-1",	 			125, 400,   65, 100));
+		rooms.add(new Room(-21, "ap2-1",	 		125, 400,   65, 100));
 		rooms.get(rooms.size()-1).toggleDrawRect();
-		rooms.add(new Room(0, "AP2-3",	 			255, 400,   65, 100));
+		rooms.add(new Room(-23, "ap2-3",	 		255, 400,   65, 100));
 		rooms.get(rooms.size()-1).toggleDrawRect();
 		
-		rooms.add(new Room(0, "Elevator",	 		200, 150,   65, 50));
-		rooms.add(new Room(0, "Elevator",	 		200, 425,   65, 50));
-		
-		int count = 0;
-		for (User user:User.setupUsers()) {
-			rooms.get(count/5).addUser(user);
-			count++;
-		}
+		rooms.add(new Room(-1, "elevator",	 		200, 150,   65, 50));
+		rooms.add(new Room(-1, "elevator",	 		200, 425,   65, 50));
 		
 		return rooms;
 	}
-	
-	
+
 }
 
 

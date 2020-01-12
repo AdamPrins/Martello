@@ -1,6 +1,13 @@
+package gui;
 import java.awt.*;
 import javax.swing.*;
+
+import hotel.UnknownUser;
+import hotel.event.HotelEvent;
+import hotel.event.HotelEventString;
+
 import java.awt.event.*;
+import java.util.Date;
 
 /**
  *	Handles all the display elements 
@@ -19,9 +26,14 @@ public class GUI implements ActionListener {
     /* Buttons for stepping though events */
     private JButton stepForwards;
     private JButton stepBackwards;
+    private JButton stepForwards10;
+    private JButton stepBackwards10;
     
     /* Displays time */
-    private JLabel output;
+    private JLabel outputDate;
+    private JLabel outputEvent;
+    
+    private int eventCounter;
     
     /* The canvas where the drawing is performed */
     private Canvas canvas;
@@ -38,6 +50,7 @@ public class GUI implements ActionListener {
      * Sets all listeners
      */
 	public GUI() {
+		controller = new Controller();
 		JFrame frame = new JFrame("tracker"); 
 	    Container contentPane = frame.getContentPane(); 
 	    contentPane.setLayout(new GridBagLayout());
@@ -54,7 +67,7 @@ public class GUI implements ActionListener {
         frame.setVisible(true); // make it visible
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //stops the program when the x is pressed
         
-        controller = new Controller();
+        
         canvas.setRooms(controller.getRooms());
         canvas.repaint();
 	}
@@ -126,20 +139,38 @@ public class GUI implements ActionListener {
 	    
 	    stepBackwards = new JButton("Step Backwards");
 	    stepBackwards.addActionListener(this);
-	    c.gridx = 0;			c.gridy = 3;
+	    c.gridx = 0;			c.gridy = 2;
 	    interfacePanel.add(stepBackwards,c);
 	    
 	    stepForwards = new JButton("Step Forwards");
 	    stepForwards.addActionListener(this);
-	    c.gridx = 1;			c.gridy = 3;
+	    c.gridx = 1;			c.gridy = 2;
 	    interfacePanel.add(stepForwards,c);
+	    
+	    stepBackwards10 = new JButton("Step Backwards 10");
+	    stepBackwards10.addActionListener(this);
+	    c.gridx = 0;			c.gridy = 3;
+	    interfacePanel.add(stepBackwards10,c);
+	    
+	    stepForwards10 = new JButton("Step Forwards 10");
+	    stepForwards10.addActionListener(this);
+	    c.gridx = 1;			c.gridy = 3;
+	    interfacePanel.add(stepForwards10,c);
 	    
 	    c.gridx = 0;			c.gridy = 4;
 	    c.weightx=1;
 	    c.gridwidth=3;
-	    output = new JLabel("Current Time: ");
-	    output.setPreferredSize(new Dimension(150,30));
-	    interfacePanel.add(output,c);
+	    outputDate = new JLabel("Current Time: ");
+	    outputDate.setPreferredSize(new Dimension(150,30));
+	    interfacePanel.add(outputDate,c);
+	    
+	    eventCounter=0;
+	    c.gridx = 0;			c.gridy = 5;
+	    c.weightx=1;
+	    c.gridwidth=3;
+	    outputEvent = new JLabel(eventCounter+"/"+controller.numberOfEvents());
+	    outputEvent.setPreferredSize(new Dimension(150,30));
+	    interfacePanel.add(outputEvent,c);
 	    
 		c.gridx=CANVASE_SIZE+3;	c.gridy=0;
 		c.gridwidth=4;			c.gridheight=CANVASE_SIZE;
@@ -175,15 +206,46 @@ public class GUI implements ActionListener {
      * @param button the button that was pressed
      */
 	private void actionOnJButton(JButton button) {
+		long time=0;
 		if (button == stepBackwards) {
-			drawCanvas();
+			HotelEvent event = controller.stepBackwards();
+			if (event!=null) {
+				eventCounter--;
+				outputDate.setText("Current Time: " + new Date(event.getTime()*1000));
+				time=event.getTime();
+			}
+		}
+		if (button == stepBackwards10) {
+			for (int i=0; i<10; i++) {
+				HotelEvent event = controller.stepBackwards();
+				if (event!=null) {
+					eventCounter--;
+					outputDate.setText("Current Time: " + new Date(event.getTime()*1000));
+					time=event.getTime();
+				}
+			}
 		}
 		else if (button == stepForwards) {
-			User user = controller.getRooms().get(0).getUsers().get(3);
-			controller.getRooms().get(0).removeUser(user);
-			controller.getRooms().get(1).addUser(user);
-			drawCanvas();
+			HotelEvent event = controller.stepForwards();
+			if (event!=null) {
+				eventCounter++;
+				outputDate.setText("Current Time: " + new Date(event.getTime()*1000));
+				time=event.getTime();
+			}
 		}
+		else if (button == stepForwards10) {
+			for (int i=0; i<10; i++) {
+				HotelEvent event = controller.stepForwards();
+				if (event!=null) {
+					eventCounter++;
+					outputDate.setText("Current Time: " + new Date(event.getTime()*1000));
+					time=event.getTime();
+				}
+			}
+		}
+		outputEvent.setText(eventCounter+"/"+controller.numberOfEvents());
+		UnknownUser.clearMotionUsers(time);
+		drawCanvas();
 	
 	}
 	
